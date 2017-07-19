@@ -4,26 +4,25 @@
       <img src = "assets/images/logo.png" />
     </ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="addChecklist()"><ion-icon name="add-circle"></ion-icon></button>
+      <button ion-button icon-only (click)="addChecklist()"><ion-icon name="add-circle">
+      </ion-icon></button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
   <ion-list no-lines>
-    <ion-item-sliding>
-      <button ion-item (click)="viewChecklist(checklist)"> TITLE GOES HERE
-	<span>0 items</span>
+    <ion-item-sliding *ngFor="let checklist of checklists">
+      <button ion-item (click)="viewChecklist(checklist)"> {{checklist.title}}
+	<span>{{checklist.items.length}} items</span>
       </button>
       <ion-item-options>
-	<button ion-button icon-only color="light"
-		(click)="renameChecklist(checklist)">
+	<button ion-button icon-only color="light" (click)="renameChecklist(checklist)">
 	  <ion-icon name="clipboard"></ion-icon>
-	  Edit
 	</button>
 	<button ion-button icon-only color="danger" (click)="removeChecklist(checklist)">
-	  <ion-icon name="trash"></ion-icon>
-	  Delete
+	  <ion-icon name="trash">
+	  </ion-icon>
 	</button>
       </ion-item-options>
     </ion-item-sliding>
