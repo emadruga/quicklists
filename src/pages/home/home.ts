@@ -23,6 +23,36 @@ export class HomePage {
     }
 
     ionViewDidLoad() {
+	this.platform.ready().then(() => {
+
+	    // this.storage.get('introShown').then((result) => {
+	    // 	if(!result){
+	    // 	    this.storage.set('introShown', true);
+	    // 	    this.nav.setRoot('IntroPage');
+	    // 	}
+		
+	    // });
+
+	    this.dataService.getData().then((checklists) => {
+
+		let savedChecklists: any = false;
+		
+		if(typeof(checklists) != "undefined"){
+		    savedChecklists = JSON.parse(checklists);
+		}
+
+		if(savedChecklists){
+		    
+		    savedChecklists.forEach((savedChecklist) => {
+			let loadChecklist = new ChecklistModel(savedChecklist.title, savedChecklist.items);
+			this.checklists.push(loadChecklist);
+			loadChecklist.checklistUpdates().subscribe(update => {
+			    this.save();
+			});
+		    });
+		}
+	    });
+	});
     }
     
     addChecklist(): void {
@@ -97,5 +127,7 @@ export class HomePage {
     }
     
     save(): void {
+	// this.keyboard.close();
+	this.dataService.save(this.checklists);
     }
 }
